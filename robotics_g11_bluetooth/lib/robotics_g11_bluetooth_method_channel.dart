@@ -16,20 +16,37 @@ class MethodChannelRoboticsG11Bluetooth extends RoboticsG11BluetoothPlatform {
   }
 
   @override
-  Future<bool> runMotor(int speed) async {
-    final res = await methodChannel.invokeMethod<bool>('runMotor', speed);
-    return res ?? false;
+  Future<String?> runMotorForward(int speed) async {
+    final command = await methodChannel.invokeMethod<String>('runMotorForward', speed);
+    return command;
   }
 
   @override
-  Future<bool> turnServo(int degree) async {
-    final res = await methodChannel.invokeMethod<bool>('turnServo', degree);
-    return res ?? false;
+  Future<String?> runMotorBackward(int speed) async {
+    final command = await methodChannel.invokeMethod<String>('runMotorBackward', speed);
+    return command;
   }
 
   @override
   Future<bool> checkBluetoothConnection() async {
     final res = await methodChannel.invokeMethod<bool>('checkBluetoothState');
     return res ?? false;
+  }
+
+  @override
+  Future<String?> turnLeft(int speed) async {
+    final command = await methodChannel.invokeMethod<String>('turnLeft', speed);
+    return command;
+  }
+
+  @override
+  Future<String?> turnRight(int speed) async {
+    final command = await methodChannel.invokeMethod<String>('turnRight', speed);
+    return command;
+  }
+
+  @override
+  Future<void> bluetoothConnectionDispose() async {
+    await methodChannel.invokeMethod<bool>('bluetoothDispose');
   }
 }

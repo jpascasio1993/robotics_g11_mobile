@@ -1,8 +1,9 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:robotics_g11_bluetooth/robotics_g11_bluetooth_motor_interface.dart';
 
 import 'robotics_g11_bluetooth_method_channel.dart';
 
-abstract class RoboticsG11BluetoothPlatform extends PlatformInterface {
+abstract class RoboticsG11BluetoothPlatform extends PlatformInterface implements RoboticsG11BluetoothMotorInterface {
   /// Constructs a RoboticsG11BluetoothPlatform.
   RoboticsG11BluetoothPlatform() : super(token: _token);
 
@@ -27,9 +28,7 @@ abstract class RoboticsG11BluetoothPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<bool> turnServo(int degree);
-
-  Future<bool> runMotor(int speed);
-
   Future<bool> checkBluetoothConnection();
+
+  Future<void> bluetoothConnectionDispose();
 }

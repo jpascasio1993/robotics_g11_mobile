@@ -12,8 +12,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
 class RoboticsG11BluetoothPluginHandler : MethodCallHandler, ActivityAware {
 
-    private var bluetoothDelegate: RoboticsG11BluetoothDelegate =
+    var bluetoothDelegate: RoboticsG11BluetoothDelegate =
         RoboticsG11BluetoothDelegate(BluetoothAdapter.getDefaultAdapter())
+        private set
 
     private var activityPluginBinding: ActivityPluginBinding? = null
 
@@ -28,6 +29,11 @@ class RoboticsG11BluetoothPluginHandler : MethodCallHandler, ActivityAware {
             Log.i("RoboticsG11BluetoothPluginHandler", "checkBluetoothState: ")
             val res = bluetoothDelegate.checkBluetoothState(activityPluginBinding!!.activity)
             result.success(res)
+        }
+
+        if(call.method == "bluetoothDispose") {
+            bluetoothDelegate.disconnect()
+            result.success(true)
         }
 
     }

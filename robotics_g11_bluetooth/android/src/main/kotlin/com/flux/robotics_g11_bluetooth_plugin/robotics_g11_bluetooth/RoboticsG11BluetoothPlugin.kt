@@ -21,12 +21,14 @@ class RoboticsG11BluetoothPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
   /// when the Flutter Engine is detached from the Activity
   private lateinit var channel : MethodChannel
   private var activityPluginBinding: ActivityPluginBinding? = null
-  private val servoHandler: RoboticsG11ServoPluginHandler = RoboticsG11ServoPluginHandler()
+  private val servoHandler: RoboticsG11MotorPluginHandler = RoboticsG11MotorPluginHandler()
   private val bluetoothHandler: RoboticsG11BluetoothPluginHandler = RoboticsG11BluetoothPluginHandler()
+
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "robotics_g11_bluetooth")
     channel.setMethodCallHandler(this)
+    servoHandler.setBluetoothDelegate(bluetoothHandler.bluetoothDelegate)
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -36,6 +38,7 @@ class RoboticsG11BluetoothPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+    bluetoothHandler.bluetoothDelegate.disconnect()
   }
 
   @SuppressLint("LongLogTag")
