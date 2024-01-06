@@ -1,0 +1,79 @@
+# Automatically generated on 2022-08-25 UTC from https://codemagic.io/app/6306f6b6fd736a5341e7d846/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
+
+workflows:
+  prod:
+    name: Production
+    max_build_duration: 60
+    environment:
+      flutter: 3.10.6
+      # ndk: r21e
+#      java: 1.8
+      groups:
+        - prod
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $FLUTTER_ROOT/.pub-cache
+    scripts:
+      #- |
+      # set up debug keystore
+      #rm -f ~/.android/debug.keystore
+      #keytool -genkeypair \
+      # -alias androiddebugkey \
+      # -keypass android \
+      # -keystore ~/.android/debug.keystore \
+      # -storepass android \
+      # -dname 'CN=Android Debug,O=Android,C=US' \
+      # -keyalg 'RSA' \
+      # -keysize 2048 \
+      # -validity 10000
+      - |
+        # set up key.properties
+        echo $CM_KEYSTORE | base64 --decode > $CM_KEYSTORE_PATH
+        cat >> "$CM_BUILD_DIR/android/key.properties" <<EOF
+        storePassword=$CM_KEYSTORE_PASSWORD
+        keyPassword=$CM_KEY_PASSWORD
+        keyAlias=$CM_KEY_ALIAS
+        storeFile=/tmp/keystore.keystore
+        EOF
+      - |
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - flutter packages pub get
+      # - flutter build appbundle --debug
+      - flutter build appbundle --release --build-number=$(($PROJECT_BUILD_NUMBER
+        + 100))
+      - |
+        # generate signed universal apk with user specified keys
+        android-app-bundle build-universal-apk \
+          --bundle build/**/outputs/**/*.aab \
+          --ks /tmp/keystore.keystore \
+          --ks-pass $CM_KEYSTORE_PASSWORD \
+          --ks-key-alias $CM_KEY_ALIAS \
+          --key-pass $CM_KEY_PASSWORD
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - '*.snap'
+      - build/windows/**/*.msix
+      - flutter_drive.log
+#    publishing:
+#      email:
+#        recipients:
+#          - jpascasio1993@gmail.com
+#      scripts:
+#        - |
+#          # Publish to Firebase App Distribution
+#          #!/usr/bin/env sh
+#          set -e   # exit on first failed command
+#          set -x   # print all executed commands to the log
+#
+#          if [[ -f "$FCI_BUILD_OUTPUT_DIR/app-release-universal.apk" ]]
+#          then
+#            # Android Firebase App Distribution CLI
+#            firebase appdistribution:distribute $FCI_BUILD_OUTPUT_DIR/app-release-universal.apk --app \
+#            1:1042396097004:android:ad9660081d7c53df --groups "Testers" \
+#            --token "$FIREBASE_TOKEN"
+#          fi
