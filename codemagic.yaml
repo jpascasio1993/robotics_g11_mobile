@@ -59,21 +59,21 @@ workflows:
       - '*.snap'
       - build/windows/**/*.msix
       - flutter_drive.log
-#    publishing:
-#      email:
-#        recipients:
-#          - jpascasio1993@gmail.com
-#      scripts:
-#        - |
-#          # Publish to Firebase App Distribution
-#          #!/usr/bin/env sh
-#          set -e   # exit on first failed command
-#          set -x   # print all executed commands to the log
-#
-#          if [[ -f "$FCI_BUILD_OUTPUT_DIR/app-release-universal.apk" ]]
-#          then
-#            # Android Firebase App Distribution CLI
-#            firebase appdistribution:distribute $FCI_BUILD_OUTPUT_DIR/app-release-universal.apk --app \
-#            1:1042396097004:android:ad9660081d7c53df --groups "Testers" \
-#            --token "$FIREBASE_TOKEN"
-#          fi
+    publishing:
+      email:
+        recipients:
+          - jpascasio1993@gmail.com
+      scripts:
+        - |
+          # Publish to Firebase App Distribution
+          #!/usr/bin/env sh
+          set -e   # exit on first failed command
+          set -x   # print all executed commands to the log
+
+          if [[ -f "$FCI_BUILD_OUTPUT_DIR/app-release-universal.apk" ]]
+          then
+            # Android Firebase App Distribution CLI
+            firebase appdistribution:distribute $FCI_BUILD_OUTPUT_DIR/app-release-universal.apk --app \
+            1:772563497111:android:490baf9ffc5548186ab9d2 --groups "Testers" \
+            --token "$FIREBASE_TOKEN"
+          fi
