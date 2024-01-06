@@ -67,7 +67,7 @@ final roboticsBluetooth = RoboticsG11Bluetooth();
     //   // called again, and so nothing would appear to happen.
     //   _counter++;
     // });
-    roboticsBluetooth.turnServo(120);
+    roboticsBluetooth.runMotorForward(120);
 
   }
 
