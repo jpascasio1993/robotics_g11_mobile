@@ -26,4 +26,10 @@ class MethodChannelRoboticsG11Bluetooth extends RoboticsG11BluetoothPlatform {
     final res = await methodChannel.invokeMethod<bool>('turnServo', degree);
     return res ?? false;
   }
+
+  @override
+  Future<bool> checkBluetoothConnection() async {
+    final res = await methodChannel.invokeMethod<bool>('checkBluetoothState');
+    return res ?? false;
+  }
 }

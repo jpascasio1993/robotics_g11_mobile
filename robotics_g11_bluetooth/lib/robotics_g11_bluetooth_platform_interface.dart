@@ -30,4 +30,6 @@ abstract class RoboticsG11BluetoothPlatform extends PlatformInterface {
   Future<bool> turnServo(int degree);
 
   Future<bool> runMotor(int speed);
+
+  Future<bool> checkBluetoothConnection();
 }
