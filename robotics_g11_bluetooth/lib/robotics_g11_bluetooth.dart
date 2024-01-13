@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:robotics_g11_bluetooth/robotics_g11_bluetooth_interface.dart';
-import 'package:robotics_g11_bluetooth/robotics_g11_bluetooth_motor_interface.dart';
 
 import 'robotics_g11_bluetooth_platform_interface.dart';
 
@@ -12,6 +11,7 @@ class RoboticsG11Bluetooth implements RoboticsG11BluetoothInterface {
     return RoboticsG11BluetoothPlatform.instance.getPlatformVersion();
   }
 
+  @override
   Future<bool> checkBluetoothConnection() => RoboticsG11BluetoothPlatform.instance.checkBluetoothConnection();
 
   @override
@@ -27,4 +27,7 @@ class RoboticsG11Bluetooth implements RoboticsG11BluetoothInterface {
 
   @override
   Future<String?> turnRight(double speed) => RoboticsG11BluetoothPlatform.instance.turnRight(lerpDouble(0, 255, speed)!.toInt().clamp(0, MAX_PWM));
+
+  @override
+  Future<void> bluetoothConnectionDispose() => RoboticsG11BluetoothPlatform.instance.bluetoothConnectionDispose();
 }
