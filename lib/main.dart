@@ -6,6 +6,7 @@ import 'package:robotics_g11/features/rc_main/rc_main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(serviceLocator: initInjection(GetIt.instance)));
 }
 

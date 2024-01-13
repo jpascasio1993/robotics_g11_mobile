@@ -15,4 +15,12 @@ class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState
   void backward(double speed) {
     roboticsG11Bluetooth.runMotorBackward(speed);
   }
+
+  void checkBluetooth() {
+    roboticsG11Bluetooth.checkBluetoothConnection();
+  }
+
+  void disposeBluetooth() {
+    roboticsG11Bluetooth.bluetoothConnectionDispose();
+  }
 }

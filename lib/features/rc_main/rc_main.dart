@@ -14,6 +14,20 @@ class RCMain extends StatefulWidget {
 
 class _RCMainController extends State<RCMain> with ServiceLocatorMixin, RoboticsG11BluetoothMixin {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      super.roboticsG11BluetoothStore.checkBluetooth();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.roboticsG11BluetoothStore.disposeBluetooth();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => MultiBlocProvider(providers: [
         BlocProvider<RoboticsG11BluetoothStore>.value(value: roboticsG11BluetoothStore),
       ], child: _RCMainView(this));
