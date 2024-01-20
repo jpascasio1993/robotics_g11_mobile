@@ -43,17 +43,26 @@ class _RCMainView extends WidgetView<RCMain, _RCMainController> {
         title: const Text('Robotics G11'),
       ),
       body: Center(
-        child: Container(
-          child: Column(
-            children: [
-              ElevatedButton(onPressed: () {
-                state.roboticsG11BluetoothStore.forward(0.5);
-              }, child: Text('Forward')),
-              ElevatedButton(onPressed: () {
-                state.roboticsG11BluetoothStore.backward(0.5);
-              }, child: Text('Backward'))
-            ],
-          ),
+        child: Builder(
+          builder: (context) {
+            final permissionGranted = context.select<RoboticsG11BluetoothStore, bool>((value) => value.state.permissionGranted);
+            if(!permissionGranted) {
+              return Text('Bluetooth Permission not granted');
+            }
+
+            return Container(
+              child: Column(
+                children: [
+                  ElevatedButton(onPressed: () {
+                    state.roboticsG11BluetoothStore.forward(0.5);
+                  }, child: Text('Forward')),
+                  ElevatedButton(onPressed: () {
+                    state.roboticsG11BluetoothStore.backward(0.5);
+                  }, child: Text('Backward'))
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

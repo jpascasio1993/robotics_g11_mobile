@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RoboticsG11BluetoothStoreState {
+  bool get permissionGranted => throw _privateConstructorUsedError;
+  bool get bluetoothConnected => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   Exception? get exception => throw _privateConstructorUsedError;
 
@@ -32,7 +34,11 @@ abstract class $RoboticsG11BluetoothStoreStateCopyWith<$Res> {
       _$RoboticsG11BluetoothStoreStateCopyWithImpl<$Res,
           RoboticsG11BluetoothStoreState>;
   @useResult
-  $Res call({bool isLoading, Exception? exception});
+  $Res call(
+      {bool permissionGranted,
+      bool bluetoothConnected,
+      bool isLoading,
+      Exception? exception});
 }
 
 /// @nodoc
@@ -49,10 +55,20 @@ class _$RoboticsG11BluetoothStoreStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? permissionGranted = null,
+    Object? bluetoothConnected = null,
     Object? isLoading = null,
     Object? exception = freezed,
   }) {
     return _then(_value.copyWith(
+      permissionGranted: null == permissionGranted
+          ? _value.permissionGranted
+          : permissionGranted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bluetoothConnected: null == bluetoothConnected
+          ? _value.bluetoothConnected
+          : bluetoothConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -74,7 +90,11 @@ abstract class _$$RoboticsG11BluetoothStoreStateImplCopyWith<$Res>
       __$$RoboticsG11BluetoothStoreStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, Exception? exception});
+  $Res call(
+      {bool permissionGranted,
+      bool bluetoothConnected,
+      bool isLoading,
+      Exception? exception});
 }
 
 /// @nodoc
@@ -90,10 +110,20 @@ class __$$RoboticsG11BluetoothStoreStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? permissionGranted = null,
+    Object? bluetoothConnected = null,
     Object? isLoading = null,
     Object? exception = freezed,
   }) {
     return _then(_$RoboticsG11BluetoothStoreStateImpl(
+      permissionGranted: null == permissionGranted
+          ? _value.permissionGranted
+          : permissionGranted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bluetoothConnected: null == bluetoothConnected
+          ? _value.bluetoothConnected
+          : bluetoothConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -111,8 +141,17 @@ class __$$RoboticsG11BluetoothStoreStateImplCopyWithImpl<$Res>
 class _$RoboticsG11BluetoothStoreStateImpl
     implements _RoboticsG11BluetoothStoreState {
   const _$RoboticsG11BluetoothStoreStateImpl(
-      {this.isLoading = false, this.exception});
+      {this.permissionGranted = false,
+      this.bluetoothConnected = false,
+      this.isLoading = false,
+      this.exception});
 
+  @override
+  @JsonKey()
+  final bool permissionGranted;
+  @override
+  @JsonKey()
+  final bool bluetoothConnected;
   @override
   @JsonKey()
   final bool isLoading;
@@ -121,7 +160,7 @@ class _$RoboticsG11BluetoothStoreStateImpl
 
   @override
   String toString() {
-    return 'RoboticsG11BluetoothStoreState(isLoading: $isLoading, exception: $exception)';
+    return 'RoboticsG11BluetoothStoreState(permissionGranted: $permissionGranted, bluetoothConnected: $bluetoothConnected, isLoading: $isLoading, exception: $exception)';
   }
 
   @override
@@ -129,6 +168,10 @@ class _$RoboticsG11BluetoothStoreStateImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoboticsG11BluetoothStoreStateImpl &&
+            (identical(other.permissionGranted, permissionGranted) ||
+                other.permissionGranted == permissionGranted) &&
+            (identical(other.bluetoothConnected, bluetoothConnected) ||
+                other.bluetoothConnected == bluetoothConnected) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.exception, exception) ||
@@ -136,7 +179,8 @@ class _$RoboticsG11BluetoothStoreStateImpl
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, exception);
+  int get hashCode => Object.hash(
+      runtimeType, permissionGranted, bluetoothConnected, isLoading, exception);
 
   @JsonKey(ignore: true)
   @override
@@ -150,9 +194,15 @@ class _$RoboticsG11BluetoothStoreStateImpl
 abstract class _RoboticsG11BluetoothStoreState
     implements RoboticsG11BluetoothStoreState {
   const factory _RoboticsG11BluetoothStoreState(
-      {final bool isLoading,
+      {final bool permissionGranted,
+      final bool bluetoothConnected,
+      final bool isLoading,
       final Exception? exception}) = _$RoboticsG11BluetoothStoreStateImpl;
 
+  @override
+  bool get permissionGranted;
+  @override
+  bool get bluetoothConnected;
   @override
   bool get isLoading;
   @override
