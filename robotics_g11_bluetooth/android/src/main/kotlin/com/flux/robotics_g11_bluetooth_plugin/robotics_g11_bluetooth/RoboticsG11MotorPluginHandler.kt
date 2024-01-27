@@ -8,7 +8,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
 class RoboticsG11MotorPluginHandler : MethodCallHandler {
 
-    private val servoDelegate: RoboticsG11MotorDelegate = RoboticsG11MotorDelegate()
+    private val motorDelegate: RoboticsG11MotorDelegate = RoboticsG11MotorDelegate()
     private lateinit var bluetoothDelegate: RoboticsG11BluetoothDelegate
 
     fun setBluetoothDelegate(bluetoothDelegate: RoboticsG11BluetoothDelegate) {
@@ -20,28 +20,28 @@ class RoboticsG11MotorPluginHandler : MethodCallHandler {
 
         if (call.method == "runMotorForward") {
             Log.i("RoboticsG11ServoPluginHandler", "runMotorForward: ")
-            val command = servoDelegate.runMotorForward(call.arguments as Int)
+            val command = motorDelegate.runMotorForward(call.arguments as Int)
             this.bluetoothDelegate.sendCommand(command)
             result.success(command)
         }
 
         if (call.method == "runMotorBackward") {
             Log.i("RoboticsG11ServoPluginHandler", "runMotorBackward: ")
-            val command = servoDelegate.runMotorBackward(call.arguments as Int)
+            val command = motorDelegate.runMotorBackward(call.arguments as Int)
             this.bluetoothDelegate.sendCommand(command);
             result.success(command)
         }
 
         if (call.method == "turnLeft") {
             Log.i("RoboticsG11ServoPluginHandler", "turnLeft: ")
-            val command = servoDelegate.turnLeft(call.arguments as Int)
+            val command = motorDelegate.turnLeft(call.arguments as Int)
             this.bluetoothDelegate.sendCommand(command);
             result.success(command)
         }
 
         if (call.method == "turnRight") {
             Log.i("RoboticsG11ServoPluginHandler", "turnRight: ")
-            val command = servoDelegate.turnRight(call.arguments as Int)
+            val command = motorDelegate.turnRight(call.arguments as Int)
             this.bluetoothDelegate.sendCommand(command);
             result.success(command)
         }

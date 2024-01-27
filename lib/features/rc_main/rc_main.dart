@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:robotics_g11/common/widgets/joystick/joystick.dart';
 import 'package:robotics_g11/common/widgets/widget_view.dart';
+import 'package:robotics_g11/features/rc_controller/rc_controller.dart';
 import 'package:robotics_g11/mixins/stateful/robotics_g11_bluetooth_mixin/robotics_g11_bluetooth_mixin.dart';
 import 'package:robotics_g11/mixins/stateful/service_locator_mixin/service_locator_mixin.dart';
 import 'package:robotics_g11/store/robotics_g11_bluetooth_store/robotics_g11_bluetooth_store.dart';
@@ -17,7 +19,7 @@ class _RCMainController extends State<RCMain> with ServiceLocatorMixin, Robotics
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      super.roboticsG11BluetoothStore.checkBluetooth();
+      // super.roboticsG11BluetoothStore.checkBluetooth();
     });
   }
 
@@ -45,23 +47,24 @@ class _RCMainView extends WidgetView<RCMain, _RCMainController> {
       body: Center(
         child: Builder(
           builder: (context) {
-            final permissionGranted = context.select<RoboticsG11BluetoothStore, bool>((value) => value.state.permissionGranted);
-            if(!permissionGranted) {
-              return Text('Bluetooth Permission not granted');
-            }
-
-            return Container(
-              child: Column(
-                children: [
-                  ElevatedButton(onPressed: () {
-                    state.roboticsG11BluetoothStore.forward(0.5);
-                  }, child: Text('Forward')),
-                  ElevatedButton(onPressed: () {
-                    state.roboticsG11BluetoothStore.backward(0.5);
-                  }, child: Text('Backward'))
-                ],
-              ),
-            );
+            return RCController();
+            // final permissionGranted = context.select<RoboticsG11BluetoothStore, bool>((value) => value.state.permissionGranted);
+            // if(!permissionGranted) {
+            //   return Text('Bluetooth Permission not granted');
+            // }
+            //
+            // return Container(
+            //   child: Column(
+            //     children: [
+            //       ElevatedButton(onPressed: () {
+            //         state.roboticsG11BluetoothStore.forward(0.5);
+            //       }, child: Text('Forward')),
+            //       ElevatedButton(onPressed: () {
+            //         state.roboticsG11BluetoothStore.backward(0.5);
+            //       }, child: Text('Backward'))
+            //     ],
+            //   ),
+            // );
           },
         ),
       ),
