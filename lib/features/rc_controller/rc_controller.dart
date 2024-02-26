@@ -47,6 +47,11 @@ class _RCControllerController extends State<RCController>
   }
 
   void pwm(double value) {
+    if (value == 0) {
+      roboticsG11JoystickState.stop();
+      return;
+    }
+
     if (!value.isNegative) {
       roboticsG11JoystickState.setPwm(0);
       return;
