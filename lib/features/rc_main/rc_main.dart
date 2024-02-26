@@ -22,7 +22,7 @@ class _RCMainController extends State<RCMain>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // super.roboticsG11BluetoothStore.checkBluetooth();
+      super.roboticsG11BluetoothStore.checkBluetooth();
     });
   }
 
