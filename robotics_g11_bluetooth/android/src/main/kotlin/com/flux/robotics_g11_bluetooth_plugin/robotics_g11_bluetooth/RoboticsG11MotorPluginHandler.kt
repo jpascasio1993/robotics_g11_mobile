@@ -5,6 +5,7 @@ import android.util.Log
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import kotlinx.coroutines.runBlocking
 
 class RoboticsG11MotorPluginHandler : MethodCallHandler {
 
@@ -21,35 +22,47 @@ class RoboticsG11MotorPluginHandler : MethodCallHandler {
         if (call.method == "runMotorForward") {
             Log.i("RoboticsG11ServoPluginHandler", "runMotorForward: ")
             val command = motorDelegate.runMotorForward(call.arguments as Int)
-            this.bluetoothDelegate.sendCommand(command)
+            runBlocking {
+                return@runBlocking bluetoothDelegate.sendCommand(command)
+            }
+
             result.success(command)
         }
 
         if (call.method == "runMotorBackward") {
             Log.i("RoboticsG11ServoPluginHandler", "runMotorBackward: ")
             val command = motorDelegate.runMotorBackward(call.arguments as Int)
-            this.bluetoothDelegate.sendCommand(command);
+            runBlocking {
+                return@runBlocking bluetoothDelegate.sendCommand(command)
+            }
             result.success(command)
         }
 
         if (call.method == "turnLeft") {
             Log.i("RoboticsG11ServoPluginHandler", "turnLeft: ")
             val command = motorDelegate.turnLeft(call.arguments as Int)
-            this.bluetoothDelegate.sendCommand(command);
-            result.success(command)
+            return runBlocking {
+                bluetoothDelegate.sendCommand(command)
+                return@runBlocking result.success(command)
+            }
+
         }
 
         if (call.method == "turnRight") {
             Log.i("RoboticsG11ServoPluginHandler", "turnRight: ")
             val command = motorDelegate.turnRight(call.arguments as Int)
-            this.bluetoothDelegate.sendCommand(command);
-            result.success(command)
+            return runBlocking {
+                bluetoothDelegate.sendCommand(command)
+                return@runBlocking result.success(command)
+            }
         }
 
         if (call.method == "customCommand") {
             val command = call.arguments as String
-            this.bluetoothDelegate.sendCommand(command)
-            result.success(command)
+            return runBlocking {
+                bluetoothDelegate.sendCommand(command)
+                return@runBlocking result.success(command)
+            }
         }
     }
 }

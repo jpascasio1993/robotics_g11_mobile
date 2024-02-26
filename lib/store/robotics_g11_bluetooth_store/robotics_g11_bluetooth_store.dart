@@ -4,6 +4,7 @@ import 'package:robotics_g11/common/cubit/base_cubit.dart';
 import 'package:robotics_g11/common/cubit/request_state/request_state.dart';
 import 'package:robotics_g11/store/robotics_g11_bluetooth_store/robotics_g11_bluetooth_store_state.dart';
 import 'package:robotics_g11_bluetooth/robotics_g11_bluetooth.dart';
+import 'package:rxdart/rxdart.dart';
 
 class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState> with ContextualLogger {
   final RoboticsG11Bluetooth roboticsG11Bluetooth;
@@ -38,7 +39,9 @@ class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState
     roboticsG11Bluetooth.runMotorForward(0);
   }
 
-  void sendCustomCommand(String command) => roboticsG11Bluetooth.customCommand(command);
+  void sendCustomCommand(String command) =>
+      roboticsG11Bluetooth.customCommand(command);
+
 
   void checkBluetooth() {
     _bluetoothScanRequest.doRequest(() async {
