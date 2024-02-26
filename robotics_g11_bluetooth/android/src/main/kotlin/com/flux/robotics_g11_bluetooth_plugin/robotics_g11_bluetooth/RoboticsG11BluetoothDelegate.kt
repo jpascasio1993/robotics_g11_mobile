@@ -65,13 +65,10 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     }
 
     @Throws(IOException::class)
-    suspend fun sendCommand(command: String) {
-        Log.i("Arduino Data String", command)
-
-        withContext(Dispatchers.IO) {
-            val bytes: ByteArray = command.trim().toByteArray()
-            outputStream!!.write(bytes)
-        }
+    fun sendCommand(command: String) {
+        val bytes: ByteArray = command.trim().toByteArray()
+        outputStream!!.write(bytes)
+        outputStream!!.flush()
     }
 
     @SuppressLint("LongLogTag")
