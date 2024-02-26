@@ -6,4 +6,6 @@ abstract class RoboticsG11BluetoothMotorInterface {
   Future<String?> turnLeft(int speed);
 
   Future<String?> turnRight(int speed);
+
+  Future<String?> customCommand(String command);
 }

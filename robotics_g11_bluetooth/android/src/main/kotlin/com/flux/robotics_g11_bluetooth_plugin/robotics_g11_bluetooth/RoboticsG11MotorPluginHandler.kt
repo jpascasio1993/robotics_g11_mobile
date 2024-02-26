@@ -45,5 +45,11 @@ class RoboticsG11MotorPluginHandler : MethodCallHandler {
             this.bluetoothDelegate.sendCommand(command);
             result.success(command)
         }
+
+        if (call.method == "customCommand") {
+            val command = call.arguments as String
+            this.bluetoothDelegate.sendCommand(command)
+            result.success(command)
+        }
     }
 }

@@ -6,6 +6,10 @@ import 'robotics_g11_bluetooth_platform_interface.dart';
 
 class RoboticsG11Bluetooth implements RoboticsG11BluetoothInterface {
   static const MAX_PWM = 255;
+  static const RUN_MOTOR_FORWARD_CODE = 50;
+  static const RUN_MOTOR_BACKWARD_CODE = 51;
+  static const DIRECTION_LEFT_CODE = 1;
+  static const DIRECTION_RIGHT_CODE = 2;
 
   Future<String?> getPlatformVersion() {
     return RoboticsG11BluetoothPlatform.instance.getPlatformVersion();
@@ -30,4 +34,7 @@ class RoboticsG11Bluetooth implements RoboticsG11BluetoothInterface {
 
   @override
   Future<void> bluetoothConnectionDispose() => RoboticsG11BluetoothPlatform.instance.bluetoothConnectionDispose();
+
+  @override
+  Future<String?> customCommand(String command) => RoboticsG11BluetoothPlatform.instance.customCommand(command);
 }

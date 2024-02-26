@@ -11,4 +11,5 @@ abstract class RoboticsG11BluetoothInterface {
 
   Future<void> bluetoothConnectionDispose();
 
+  Future<String?> customCommand(String command);
 }

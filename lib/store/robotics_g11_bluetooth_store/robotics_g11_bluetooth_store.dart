@@ -38,6 +38,8 @@ class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState
     roboticsG11Bluetooth.runMotorForward(0);
   }
 
+  void sendCustomCommand(String command) => roboticsG11Bluetooth.customCommand(command);
+
   void checkBluetooth() {
     _bluetoothScanRequest.doRequest(() async {
       final Map<Permission, PermissionStatus> res = await [
