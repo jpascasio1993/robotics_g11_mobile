@@ -22,7 +22,7 @@ import java.util.UUID
 class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     PluginRegistry.ActivityResultListener {
    companion object {
-       const val BT_ADDRESS: String = "98:D3:21:F8:28:84"
+       const val BT_ADDRESS: String = "98:DA:50:03:05:6E"
        val BT_UUID: UUID? = UUID
            .fromString("00001101-0000-1000-8000-00805F9B34FB")
    }
@@ -35,18 +35,20 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     @Throws(IOException::class)
     private suspend fun connect(): Boolean {
        return withContext(Dispatchers.IO) {
-           btDevice = btAdapter?.getRemoteDevice(BT_ADDRESS)
+
+           btDevice = btAdapter?.bondedDevices?.toList()?.find { bluetoothDevice -> bluetoothDevice.address == BT_ADDRESS }
            if(btDevice.isNull()) throw IOException("Bluetooth device is null")
            btSocket = createBluetoothSocket(btDevice!!)
            btAdapter!!.cancelDiscovery()
            try {
-               Log.i("RoboticsG11BluetoothDelegate","connecting to bluetooth...")
-               btSocket?.connect()
+               Log.i("RoboticsG11BluetoothDelegate","connecting to bluetooth... ${btDevice!!.address}")
+               btSocket!!.connect()
                Log.i("RoboticsG11BluetoothDelegate","connected to bluetooth...")
-               outputStream = btSocket?.outputStream
+               outputStream = btSocket!!.outputStream
                Log.i("RoboticsG11BluetoothDelegate","retrieved outputstream socket...")
-               inputStream = btSocket?.inputStream
+               inputStream = btSocket!!.inputStream
                Log.i("RoboticsG11BluetoothDelegate","retrieved inputStream socket...")
+//               listenToPairedDevice()
                 return@withContext true;
            } catch(exception: IOException) {
                btSocket?.close();
@@ -64,15 +66,18 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
 
     @Throws(IOException::class)
     fun sendCommand(command: String) {
-        val bytes: ByteArray = command.toByteArray()
-        outputStream?.write(bytes)
+        val bytes: ByteArray = command.trim().toByteArray()
+        outputStream!!.write(bytes)
     }
 
+    @SuppressLint("LongLogTag")
     suspend fun listenToPairedDevice() {
         withContext(Dispatchers.IO) {
             val buffer = ByteArray(256)
             val sb = StringBuilder()
             var bytes: Int
+            Log.i("RoboticsG11BluetoothDelegate","listenToPairedDevice...")
+
             while (true) {
                 try {
                     bytes = inputStream!!.read(buffer)
@@ -95,15 +100,15 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     @SuppressLint("LongLogTag")
     @Throws(IOException::class)
     private fun createBluetoothSocket(device: BluetoothDevice): BluetoothSocket {
-        try {
-            val m = device.javaClass.getMethod(
-                "createInsecureRfcommSocketToServiceRecord",
-                *arrayOf<Class<*>>(UUID::class.java)
-            )
-            return m.invoke(device, BT_UUID) as BluetoothSocket
-        } catch (e: Exception) {
-            Log.e("RoboticsG11BluetoothDelegate", "Could not create Insecure RFComm Connection", e)
-        }
+//        try {
+//            val m = device.javaClass.getMethod(
+//                "createInsecureRfcommSocketToServiceRecord",
+//                *arrayOf<Class<*>>(UUID::class.java)
+//            )
+//            return m.invoke(device, BT_UUID) as BluetoothSocket
+//        } catch (e: Exception) {
+//            Log.e("RoboticsG11BluetoothDelegate", "Could not create Insecure RFComm Connection", e)
+//        }
         return device.createRfcommSocketToServiceRecord(BT_UUID)
     }
 

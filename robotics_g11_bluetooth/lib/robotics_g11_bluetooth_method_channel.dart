@@ -49,4 +49,10 @@ class MethodChannelRoboticsG11Bluetooth extends RoboticsG11BluetoothPlatform {
   Future<void> bluetoothConnectionDispose() async {
     await methodChannel.invokeMethod<bool>('bluetoothDispose');
   }
+
+  @override
+  Future<String?> customCommand(String command) async {
+    await methodChannel.invokeMethod<String>('customCommand', command);
+    return command;
+  }
 }
