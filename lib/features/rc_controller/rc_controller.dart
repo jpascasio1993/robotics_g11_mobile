@@ -36,12 +36,20 @@ class _RCControllerController extends State<RCController>
 
   void turn(double speed) {
     if (speed.isNegative) {
-      roboticsG11JoystickState.left();
+      if (speed < -0.2) {
+        roboticsG11JoystickState.left();
+        return;
+      }
+      roboticsG11JoystickState.center();
       return;
     }
 
     if (!speed.isNegative) {
-      roboticsG11JoystickState.right();
+      if (speed > 0.5) {
+        roboticsG11JoystickState.right();
+        return;
+      }
+      roboticsG11JoystickState.center();
       return;
     }
   }
@@ -76,9 +84,11 @@ class _RCControllerView extends WidgetView<RCController, _RCControllerController
             Expanded(
                 child: JoystickArea(
               initialJoystickAlignment: Alignment.center,
+              period: const Duration(milliseconds: 300),
               listener: (details) {
                 final x = details.x;
                 final y = details.y;
+                print('detailss x:: ${details.x}');
                 state.turn(x);
                 state.move(y);
               },
@@ -86,8 +96,10 @@ class _RCControllerView extends WidgetView<RCController, _RCControllerController
             Expanded(
                 child: JoystickArea(
               initialJoystickAlignment: Alignment.center,
+              period: const Duration(milliseconds: 200),
+              onStickDragEnd: () => state.pwm(state.roboticsG11JoystickState.state.pwm.toDouble()),
               listener: (details) {
-                // print('detailszz :${details.y}');
+                print('detailszz :${details.y}');
                 state.pwm(details.y);
               },
             ))

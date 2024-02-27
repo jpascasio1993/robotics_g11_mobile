@@ -10,6 +10,7 @@ class RoboticsG11Bluetooth implements RoboticsG11BluetoothInterface {
   static const RUN_MOTOR_BACKWARD_CODE = 51;
   static const DIRECTION_LEFT_CODE = 1;
   static const DIRECTION_RIGHT_CODE = 2;
+  static const DIRECTION_CENTER = 0;
 
   Future<String?> getPlatformVersion() {
     return RoboticsG11BluetoothPlatform.instance.getPlatformVersion();

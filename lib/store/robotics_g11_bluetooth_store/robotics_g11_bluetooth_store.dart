@@ -15,8 +15,20 @@ class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState
 
   RequestState<bool> get bluetoothScanRequest => _bluetoothScanRequest;
 
+  RequestState<bool> _sendCommandRequest = RequestState();
+
+  RequestState<bool> get sendCommandRequest => _sendCommandRequest;
+
   @override
   String get logContext => super.runtimeType.toString();
+
+  @override
+  void init() {
+    requestStates = [
+      _bluetoothScanRequest,
+      _sendCommandRequest
+    ];
+  }
 
   void forward(double speed) async {
     final command = await roboticsG11Bluetooth.runMotorForward(speed.abs().roundToDouble());
@@ -39,8 +51,7 @@ class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState
     roboticsG11Bluetooth.runMotorForward(0);
   }
 
-  void sendCustomCommand(String command) =>
-      roboticsG11Bluetooth.customCommand(command);
+  void sendCustomCommand(String command) => roboticsG11Bluetooth.customCommand(command);
 
 
   void checkBluetooth() {
