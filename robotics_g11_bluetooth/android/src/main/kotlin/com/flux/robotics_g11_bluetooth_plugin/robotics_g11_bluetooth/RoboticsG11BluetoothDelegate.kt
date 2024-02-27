@@ -69,10 +69,10 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     @Throws(IOException::class)
     suspend fun sendCommand(command: String) {
         if(outputStream == null) return
-        if(isRunning) return
-        if(lastCommand == command) return
+//        if(isRunning) return
+//        if(lastCommand == command) return
         lastCommand = command
-        isRunning = true
+//        isRunning = true
 
         Log.i("sendCommand", lastCommand)
 
@@ -80,9 +80,10 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
             val bytes: ByteArray = lastCommand.trim().toByteArray()
             outputStream!!.write(bytes)
             listenToPairedDevice()
+            Log.i("executedCommand", lastCommand)
             outputStream!!.flush()
         }
-        isRunning = false
+//        isRunning = false
     }
 
     @SuppressLint("LongLogTag")

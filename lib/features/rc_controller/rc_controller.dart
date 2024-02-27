@@ -84,11 +84,11 @@ class _RCControllerView extends WidgetView<RCController, _RCControllerController
             Expanded(
                 child: JoystickArea(
               initialJoystickAlignment: Alignment.center,
-              period: const Duration(milliseconds: 300),
+              period: const Duration(milliseconds: 200),
               listener: (details) {
                 final x = details.x;
                 final y = details.y;
-                print('detailss x:: ${details.x}');
+                // print('detailss x:: ${details.x}');
                 state.turn(x);
                 state.move(y);
               },
@@ -99,7 +99,7 @@ class _RCControllerView extends WidgetView<RCController, _RCControllerController
               period: const Duration(milliseconds: 200),
               onStickDragEnd: () => state.pwm(state.roboticsG11JoystickState.state.pwm.toDouble()),
               listener: (details) {
-                print('detailszz :${details.y}');
+                // print('detailszz :${details.y}');
                 state.pwm(details.y);
               },
             ))

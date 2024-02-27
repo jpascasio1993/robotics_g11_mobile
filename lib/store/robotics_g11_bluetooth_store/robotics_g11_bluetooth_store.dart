@@ -1,4 +1,5 @@
 import 'package:contextual_logging/contextual_logging.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:robotics_g11/common/cubit/base_cubit.dart';
 import 'package:robotics_g11/common/cubit/request_state/request_state.dart';
@@ -51,7 +52,9 @@ class RoboticsG11BluetoothStore extends BaseStore<RoboticsG11BluetoothStoreState
     roboticsG11Bluetooth.runMotorForward(0);
   }
 
-  void sendCustomCommand(String command) => roboticsG11Bluetooth.customCommand(command);
+  void sendCustomCommand(String command) => EasyDebounce.debounce('sendCustomCommand', const Duration(milliseconds: 300), () {
+    roboticsG11Bluetooth.customCommand(command);
+  });
 
 
   void checkBluetooth() {
