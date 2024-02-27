@@ -30,6 +30,8 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     private var btDevice: BluetoothDevice? = null
     private var outputStream: OutputStream? = null
     private var inputStream: InputStream? = null
+    var isRunning = false
+    var lastCommand = "500000"
 
     @SuppressLint("LongLogTag")
     @Throws(IOException::class)
@@ -49,7 +51,7 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
                inputStream = btSocket!!.inputStream
                Log.i("RoboticsG11BluetoothDelegate","retrieved inputStream socket...")
 //               listenToPairedDevice()
-                return@withContext true;
+                return@withContext true
            } catch(exception: IOException) {
                btSocket?.close();
                Log.i("RoboticsG11BluetoothDelegate","failed to connect to bluetooth. Closing connection...")
@@ -65,10 +67,22 @@ class RoboticsG11BluetoothDelegate(private var btAdapter: BluetoothAdapter?) :
     }
 
     @Throws(IOException::class)
-    fun sendCommand(command: String) {
-        val bytes: ByteArray = command.trim().toByteArray()
-        outputStream!!.write(bytes)
-        outputStream!!.flush()
+    suspend fun sendCommand(command: String) {
+        if(outputStream == null) return
+        if(isRunning) return
+        if(lastCommand == command) return
+        lastCommand = command
+        isRunning = true
+
+        Log.i("sendCommand", lastCommand)
+
+        withContext(Dispatchers.IO) {
+            val bytes: ByteArray = lastCommand.trim().toByteArray()
+            outputStream!!.write(bytes)
+            listenToPairedDevice()
+            outputStream!!.flush()
+        }
+        isRunning = false
     }
 
     @SuppressLint("LongLogTag")
