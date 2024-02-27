@@ -43,7 +43,7 @@ class _RCMainController extends State<RCMain>
               BlocListener<RoboticsG11JoystickState, RoboticsG11JoystickStateState>(
                 listenWhen: (previous, current) => previous != current,
                 listener: (context, state) {
-                  // print(super.roboticsG11JoystickState.command);
+                  print('commandzz:: ${super.roboticsG11JoystickState.command}');
                   super.roboticsG11BluetoothStore.sendCustomCommand(super.roboticsG11JoystickState.command);
               })
             ],

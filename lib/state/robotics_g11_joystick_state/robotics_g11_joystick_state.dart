@@ -21,11 +21,9 @@ class RoboticsG11JoystickState extends BaseStore<RoboticsG11JoystickStateState> 
   void stop() => emit(state.copyWith(pwm: 0));
 
   void setPwm(double value) {
-    EasyThrottle.throttle('pwm', const Duration(milliseconds: 200), () {
-      final val = double.parse(value.toStringAsFixed(2));
-      print('pwmSet:: $val');
-      emit(state.copyWith(pwm: lerpDouble(0, RoboticsG11Bluetooth.MAX_PWM, val)!.toInt().clamp(0, RoboticsG11Bluetooth.MAX_PWM)));
-    });
+    final val = double.parse(value.toStringAsFixed(2));
+    print('pwmSet:: $val');
+    emit(state.copyWith(pwm: lerpDouble(0, RoboticsG11Bluetooth.MAX_PWM, val)!.toInt().clamp(0, RoboticsG11Bluetooth.MAX_PWM)));
   }
 
   String get command => '${state.directionForwardBackward}${state.pwm.toString().padLeft(3, '0')}${state.directionLeftRight}';
